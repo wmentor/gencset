@@ -1,7 +1,6 @@
 package main
 
 import (
-	"fmt"
 	"runtime/debug"
 
 	"github.com/spf13/viper"
@@ -23,7 +22,7 @@ func main() {
 	log.Open(viper.GetString("log"))
 
 	if gc := viper.GetInt("garbage"); gc > 0 && gc < 100 {
-		log.Info(fmt.Sprintf("gc=%d", gc))
+		log.Infof("gc=%d", gc)
 		debug.SetGCPercent((gc))
 	}
 

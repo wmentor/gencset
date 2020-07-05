@@ -16,6 +16,7 @@ func Get() (*sql.DB, error) {
 
 	if con, err := sql.Open("postgres", conStr); err == nil {
 		if err = con.Ping(); err != nil {
+			log.Error(err.Error())
 			con.Close()
 			return nil, err
 		}

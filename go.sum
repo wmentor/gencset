@@ -201,6 +201,8 @@ github.com/wmentor/latency v1.0.0 h1:G+JZVaRG6qW2Lzgv5Y9T1aiFETEqiQEYXuTSWvh2hZ8
 github.com/wmentor/latency v1.0.0/go.mod h1:WLQCiWrolPQZPot5HRFE5kMaanoOlOfbJraUyHePPCg=
 github.com/wmentor/log v1.0.0 h1:3uKU7RSTYZSdy5Not67llcArebxm+C5Aq/ys8NmRG/A=
 github.com/wmentor/log v1.0.0/go.mod h1:NPaMDoV7fB4gbKmmDrf7F7oSrD8qOi3QBzOgKS6Xk7I=
+github.com/wmentor/log v1.0.1 h1:mWHgPuZNrcdnGOiGQwl76PFN982nRZbGu8sTByH6YVs=
+github.com/wmentor/log v1.0.1/go.mod h1:NPaMDoV7fB4gbKmmDrf7F7oSrD8qOi3QBzOgKS6Xk7I=
 github.com/wmentor/serv v0.0.0-20200703173458-2050e327fe03 h1:ECNr6Gc9UMeU+gts9JDnW0GgG2VPu1cWoFQM5Qaz8N4=
 github.com/wmentor/serv v0.0.0-20200703173458-2050e327fe03/go.mod h1:PXtGhgofLc9sZdzuAv7t9BHTcEgbLN1qZ6XFaWQwOOU=
 github.com/wmentor/tt v1.0.0 h1:TaVIwklNHxCJf6ZGdGFBMMed2VCMp33D3tlm3TzSB5k=
