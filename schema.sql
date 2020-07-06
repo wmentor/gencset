@@ -4,9 +4,10 @@ CREATE TABLE locs (
   id BIGSERIAL NOT NULL PRIMARY KEY,
   name character varying(255) NOT NULL,
   code character varying(1024) NOT NULL,
-  parent_id INTEGER,
+  parent_id INTEGER NOT NULL,
   latitude DOUBLE PRECISION NOT NULL,
-  longitude DOUBLE PRECISION NOT NULL
+  longitude DOUBLE PRECISION NOT NULL,
+  forms TEXT NOT NULL
 );
 
 COMMENT ON TABLE locs IS 'GEO location table';
@@ -24,19 +25,31 @@ CREATE INDEX logcs_code_idx ON locs( LOWER(code) );
 CREATE INDEX locs_latitude_idx ON locs(latitude);
 CREATE INDEX locs_longitude_idx ON locs(longitude);
 
-CREATE TABLE forms (
-    id BIGSERIAL NOT NULL PRIMARY KEY,
-    loc_id BIGSERIAL NOT NULL REFERENCES locs(id) ON DELETE CASCADE,
-    name character varying(255) NOT NULL
-);
+CREATE FUNCTION on_insert_loc() RETURNS trigger AS $BODY$
+BEGIN
+  IF NEW.parent_id = 0 THEN
+    NEW.code = NEW.name;
+  ELSE
+    NEW.code = ( SELECT NEW.name || ' / ' || code FROM locs WHERE id = NEW.parent_id LIMIT 1 );
+  END IF;
+  IF NEW.forms IS NULL THEN
+    NEW.forms = NEW.name;
+  END IF;
+  RETURN NEW;
+END;
+$BODY$ LANGUAGE plpgsql;
 
-COMMENT ON TABLE forms IS 'Location name forms';
+CREATE TRIGGER on_insert_loc_trg BEFORE INSERT ON locs FOR EACH ROW EXECUTE PROCEDURE on_insert_loc();
 
-COMMENT ON COLUMN forms.id IS 'Location form id';
-COMMENT ON COLUMN forms.loc_id IS 'Base location id';
-COMMENT ON COLUMN forms.name IS 'Location form name';
+INSERT INTO locs(name,parent_id,latitude,longitude)
+VALUES ('Россия',0,61.698653, 99.505405);
 
-CREATE INDEX forms_loc_id_idx ON forms(loc_id);
-CREATE INDEX forms_loc_name_idx ON forms(LOWER(name));
+INSERT INTO locs(name,parent_id,latitude,longitude) VALUES
+('Москва',(SELECT id FROM locs WHERE name = 'Россия' LIMIT 1),55.753215, 37.622504);
+
+INSERT INTO locs(name,parent_id,latitude,longitude) VALUES
+('Красная площадь',(SELECT id FROM locs WHERE name = 'Москва' LIMIT 1),55.753215, 37.622504);
+
+SELECT * FROM locs;
 
 END;
