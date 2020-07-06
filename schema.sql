@@ -20,8 +20,8 @@ COMMENT ON COLUMN locs.latitude IS 'point latitude';
 COMMENT ON COLUMN locs.longitude IS 'point longitude';
 
 CREATE INDEX locs_parent_id_idx ON locs(parent_id);
-CREATE INDEX logcs_name_idx ON locs( LOWER(name) );
-CREATE INDEX logcs_code_idx ON locs( LOWER(code) );
+CREATE INDEX locs_name_idx ON locs( LOWER(name) );
+CREATE INDEX locs_code_idx ON locs( LOWER(code) );
 CREATE INDEX locs_latitude_idx ON locs(latitude);
 CREATE INDEX locs_longitude_idx ON locs(longitude);
 
