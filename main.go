@@ -7,6 +7,8 @@ import (
 	"github.com/wmentor/gencset/db"
 	"github.com/wmentor/log"
 	"github.com/wmentor/serv"
+
+	_ "github.com/wmentor/gencset/controller"
 )
 
 func main() {
@@ -27,6 +29,17 @@ func main() {
 	}
 
 	db.SetConnectString(viper.GetString("database"))
+
+	serv.LoadTemplates(viper.GetString("templates"))
+
+	serv.SetLogger(func(ld *serv.LogData) {
+		format := "%s %s %d \"%s\" \"%s\" %.3f"
+		if ld.StatusCode >= 500 {
+			log.Errorf(format, ld.Addr, ld.Method, ld.StatusCode, ld.RequestURL, ld.UserAgent, ld.Seconds)
+		} else {
+			log.Infof(format, ld.Addr, ld.Method, ld.StatusCode, ld.RequestURL, ld.UserAgent, ld.Seconds)
+		}
+	})
 
 	if err := serv.Start(viper.GetString("serv")); err != nil {
 		log.Fatal(err.Error())

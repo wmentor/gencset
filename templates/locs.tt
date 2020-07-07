@@ -1,0 +1,26 @@
+{{ extends "base.tt" }}
+
+{{ block body() }}
+
+{{ if id != 0 }}
+<h1>{{ current.Code }} <a href="/locs/{{ current.ParentId }}">BACK</a></h1>
+<p>Latitude: {{ current.Latitude }} Longitude: {{ current.Longitude }}<br/>
+Forms: {{ current.Forms }}</p>
+<h2>Locations <a href="/locs/{{ id }}/add">+</a></h2>
+{{ else }}
+<h1>Countries <a href="/locs/0/add">+</a></h1>
+{{ end }}
+
+<table>
+{{ range loc := locs }}
+<tr>
+  <td>{{ loc.Id }}</td>
+  <td><a href="/locs/{{ loc.Id }}">{{ loc.Name }}</a></td>
+  <td>{{ loc.Latitude }}</td>
+  <td>{{ loc.Longitude }}</td>
+  <td><a href="/locs/{{ id }}/edit/{{ loc.Id }}">edit</a></td>
+</tr>
+{{ end }}
+</table>
+
+{{ end }}
