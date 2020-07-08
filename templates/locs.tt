@@ -6,7 +6,7 @@
 <h1>{{ current.Code }} <a href="/locs/{{ current.ParentId }}">↑</a></h1>
 <p>Latitude: {{ current.Latitude }} Longitude: {{ current.Longitude }}<br/>
 Forms: {{ current.Forms }}</p>
-<h2>Locations <a href="/locs/{{ id }}/add">+</a></h2>
+<h2>Locations</h2>
 <hr>
 <form method="POST" action="/locs/{{ id }}/add">
 Name <input type="text" name="name"> Lat,Lon <input type="text" name="coords">
@@ -15,7 +15,7 @@ Forms <input type="text" name="forms" style="WIDTH:600px;"> <input type="submit"
 <hr>
 <br/>
 {{ else }}
-<h2>Countries <a href="/locs/0/add">+</a></h2>
+<h2>Countries</h2>
 <hr>
 <form method="POST" action="/locs/0/add">
 Name <input type="text" name="name"> Lat,Lon <input type="text" name="coords">
