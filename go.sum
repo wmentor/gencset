@@ -207,6 +207,8 @@ github.com/wmentor/serv v0.0.0-20200703173458-2050e327fe03 h1:ECNr6Gc9UMeU+gts9J
 github.com/wmentor/serv v0.0.0-20200703173458-2050e327fe03/go.mod h1:PXtGhgofLc9sZdzuAv7t9BHTcEgbLN1qZ6XFaWQwOOU=
 github.com/wmentor/serv v1.0.0 h1:q4f1xPuAQghWs4cSrjqT+aXFnZl3+Lx8ZjHV0qo/8U4=
 github.com/wmentor/serv v1.0.0/go.mod h1:PXtGhgofLc9sZdzuAv7t9BHTcEgbLN1qZ6XFaWQwOOU=
+github.com/wmentor/serv v1.0.1 h1:0Q+ipd+Z64ByV7E+mXRq/Siom/+UmBAt4aj3cTXFkgA=
+github.com/wmentor/serv v1.0.1/go.mod h1:PXtGhgofLc9sZdzuAv7t9BHTcEgbLN1qZ6XFaWQwOOU=
 github.com/wmentor/tt v1.0.0 h1:TaVIwklNHxCJf6ZGdGFBMMed2VCMp33D3tlm3TzSB5k=
 github.com/wmentor/tt v1.0.0/go.mod h1:UInfmaL3BqW7CqBKvLHVwinfsM2HuII9iCaiwakkCPU=
 github.com/wmentor/uniq v1.0.0 h1:h4//Rt/C6+SOQn5HhURRvJFeBUPzglip996sG8ln6y8=
