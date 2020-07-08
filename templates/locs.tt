@@ -3,18 +3,33 @@
 {{ block body() }}
 
 {{ if id != 0 }}
-<h1>{{ current.Code }} <a href="/locs/{{ current.ParentId }}">BACK</a></h1>
+<h1>{{ current.Code }} <a href="/locs/{{ current.ParentId }}">↑</a></h1>
 <p>Latitude: {{ current.Latitude }} Longitude: {{ current.Longitude }}<br/>
 Forms: {{ current.Forms }}</p>
 <h2>Locations <a href="/locs/{{ id }}/add">+</a></h2>
+<hr>
+<form method="POST" action="/locs/{{ id }}/add">
+Name <input type="text" name="name"> Lat,Lon <input type="text" name="coords">
+Forms <input type="text" name="forms" style="WIDTH:600px;"> <input type="submit" value="save">
+</form>
+<hr>
+<br/>
 {{ else }}
-<h1>Countries <a href="/locs/0/add">+</a></h1>
+<h2>Countries <a href="/locs/0/add">+</a></h2>
+<hr>
+<form method="POST" action="/locs/0/add">
+Name <input type="text" name="name"> Lat,Lon <input type="text" name="coords">
+Forms <input type="text" name="forms" style="WIDTH:600px;"> <input type="submit" value="save">
+</form>
+<hr>
+<br/>
 {{ end }}
 
 <table>
+{{ cnt := 1 }}
 {{ range loc := locs }}
 <tr>
-  <td>{{ loc.Id }}</td>
+  <td>{{ cnt }}{{ cnt = cnt + 1 }}</td>
   <td><a href="/locs/{{ loc.Id }}">{{ loc.Name }}</a></td>
   <td>{{ loc.Latitude }}</td>
   <td>{{ loc.Longitude }}</td>

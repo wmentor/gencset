@@ -41,6 +41,10 @@ func main() {
 		}
 	})
 
+	serv.SetErrorHandler(func(err error) {
+		log.Error(err.Error())
+	})
+
 	if err := serv.Start(viper.GetString("serv")); err != nil {
 		log.Fatal(err.Error())
 	}

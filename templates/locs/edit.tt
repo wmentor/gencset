@@ -9,19 +9,15 @@
 <table>
   <tr>
     <td>Name</td>
-    <td><input type="text" name="name" value="{{ loc.Name }}"></td>
+    <td><input type="text" name="name" value="{{ loc.Name }}" style="WIDTH:600px;"></td>
   </tr>
   <tr>
-    <td>Latitude</td>
-    <td><input type="text" name="latitude" value="{{ loc.Latitude }}"></td>
-  </tr>
-  <tr>
-    <td>Longitude</td>
-    <td><input type="text" name="longitude" value="{{ loc.Longitude }}"></td>
+    <td>Coords (Lat, Lon)</td>
+    <td><input type="text" name="coords" value="{{ loc.Latitude }}, {{ loc.Longitude }}" style="WIDTH:600px;"></td>
   </tr>
   <tr>
     <td>Forms</td>
-    <td><textarea name="forms">{{ loc.Forms }}</textarea>
+    <td><textarea name="forms" rows="10" style="WIDTH:600px;">{{ loc.Forms }}</textarea>
   </tr>
   <tr>
     <td>&nbsp;</td>

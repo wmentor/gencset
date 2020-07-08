@@ -1,7 +1,7 @@
 {
   "database": "user=gencset password=gencset host=127.0.0.1 port=5432 dbname=gencset sslmode=disable",
   "garbage": 20,
-  "log": "name=gencset path=./logs period=day keep=15 global=1 level=info stderr=1",
+  "log": "name=gencset path=./logs period=day keep=15 global=1 level=info",
   "server": ":80",
   "templates": "./templates"
 }
