@@ -9,15 +9,12 @@ import (
 )
 
 func init() {
-
-	serv.Register("GET", "/", handlePage)
 	serv.Register("GET", "/locs", handlePage)
 	serv.Register("GET", "/locs/:id", handlePage)
 	serv.Register("GET", "/locs/:id/add", handleEditPage)
 	serv.Register("POST", "/locs/:id/add", handleSavePage)
 	serv.Register("GET", "/locs/:id/edit/:loc_id", handleEditPage)
 	serv.Register("POST", "/locs/:id/edit/:loc_id", handleSavePage)
-
 }
 
 type Loc struct {
