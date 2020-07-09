@@ -1,9 +1,11 @@
 package main
 
 import (
+	"flag"
 	"runtime/debug"
 
 	"github.com/spf13/viper"
+	"github.com/wmentor/daemon"
 	"github.com/wmentor/gencset/db"
 	"github.com/wmentor/log"
 	"github.com/wmentor/serv"
@@ -13,12 +15,20 @@ import (
 
 func main() {
 
+	var runDaemon bool
+	flag.BoolVar(&runDaemon, "d", false, "run as daemon")
+	flag.Parse()
+
 	viper.SetConfigName("gencset")
 	viper.SetConfigType("json")
 	viper.AddConfigPath(".")
 
 	if err := viper.ReadInConfig(); err != nil {
 		panic(err)
+	}
+
+	if runDaemon {
+		daemon.Run(viper.GetString("daemon"))
 	}
 
 	log.Open(viper.GetString("log"))
