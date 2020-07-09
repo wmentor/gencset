@@ -45,7 +45,7 @@ func main() {
 		log.Error(err.Error())
 	})
 
-	if err := serv.Start(viper.GetString("serv")); err != nil {
+	if err := serv.Start(viper.GetString("server")); err != nil {
 		log.Fatal(err.Error())
 	}
 }
