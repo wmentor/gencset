@@ -13,6 +13,7 @@ func init() {
 	serv.Register("GET", "/locs/:id", handlePage)
 	serv.Register("GET", "/locs/:id/add", handleEditPage)
 	serv.Register("POST", "/locs/:id/add", handleSavePage)
+	serv.Register("GET", "/locs/:id/delete/:loc_id", handleDelete)
 	serv.Register("GET", "/locs/:id/edit/:loc_id", handleEditPage)
 	serv.Register("POST", "/locs/:id/edit/:loc_id", handleSavePage)
 }
@@ -84,6 +85,24 @@ func handlePage(c *serv.Context) {
 
 	c.WriteHeader(200)
 	c.Render("locs.tt", vars)
+}
+
+func handleDelete(c *serv.Context) {
+
+	id := c.ParamInt64("loc_id")
+	parent_id := c.ParamInt64("id")
+
+	dbh, err := db.Get()
+	if err != nil {
+		panic(err)
+	}
+	defer dbh.Close()
+
+	if _, err := dbh.Exec("DELETE FROM locs WHERE id=$1", id); err != nil {
+		panic(err)
+	}
+
+	c.WriteRedirect("/locs/" + strconv.FormatInt(parent_id, 10))
 }
 
 func handleEditPage(c *serv.Context) {

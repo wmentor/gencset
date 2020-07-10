@@ -34,8 +34,22 @@ Forms <input type="text" name="forms" style="WIDTH:600px;"> <input type="submit"
   <td>{{ loc.Latitude }}</td>
   <td>{{ loc.Longitude }}</td>
   <td><a href="/locs/{{ id }}/edit/{{ loc.Id }}">edit</a></td>
+  <td><a href="#" onclick="return onConfDlg({{ loc.Id }});">delete</a></td>
 </tr>
 {{ end }}
 </table>
+
+<script language="javascript">
+<!--
+
+function onConfDlg(locId) {
+  if( confirm("Вы действительно хотите удалить локацию?") ) {
+    location.href = "/locs/{{ id }}/delete/" + locId;
+  }
+  return false;
+}
+
+-->
+</script>
 
 {{ end }}
