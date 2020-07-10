@@ -68,6 +68,7 @@ func handlePage(c *serv.Context) {
 	if err != nil {
 		panic(err)
 	}
+	defer rows.Close()
 
 	var list []*Loc
 
@@ -82,6 +83,14 @@ func handlePage(c *serv.Context) {
 	}
 
 	vars["locs"] = list
+
+	var cnt int
+
+	if err := dbh.QueryRow("SELECT COUNT(id) FROM locs").Scan(&cnt); err != nil {
+		panic(err)
+	}
+
+	vars["locCnt"] = cnt
 
 	c.WriteHeader(200)
 	c.Render("locs.tt", vars)

@@ -1,6 +1,7 @@
 <!DOCTYPE HTML>
 <html>
 <head>
+{{ yield title() }}
 <style>
 a {
   text-decoration: none;
@@ -11,3 +12,7 @@ a {
 {{ yield body() }}
 </body>
 </html>
+
+{{ block title() }}
+<title>GEncSet</title>
+{{ end }}

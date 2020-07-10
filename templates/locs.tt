@@ -53,3 +53,7 @@ function onConfDlg(locId) {
 </script>
 
 {{ end }}
+
+{{ block title() }}
+<title>Locations ({{ locCnt }})</title>
+{{ end }}
