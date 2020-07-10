@@ -9,6 +9,8 @@ import (
 )
 
 func init() {
+	serv.Register("GET", "/", handlePage)
+	serv.Register("GET", "/index.html", handlePage)
 	serv.Register("GET", "/locs", handlePage)
 	serv.Register("GET", "/locs/:id", handlePage)
 	serv.Register("GET", "/locs/:id/add", handleEditPage)

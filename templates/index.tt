@@ -1,5 +1,0 @@
-{{ extends "base.tt" }}
-
-{{ block body() }}
-<a href="/locs">Locations</a> <a href="/export">Export</a>
-{{ end }}
