@@ -28,6 +28,7 @@ type Loc struct {
 	Longitude float64
 	Forms     string
 	ParentId  int64
+	Skip      bool
 }
 
 func handlePage(c *serv.Context) {
@@ -50,7 +51,7 @@ func handlePage(c *serv.Context) {
 	} else {
 		vars["id"] = id
 
-		row := dbh.QueryRow("SELECT id, name, code, latitude, longitude, forms, parent_id FROM locs WHERE id = $1", id)
+		row := dbh.QueryRow("SELECT id, name, code, latitude, longitude, forms, parent_id, skip FROM locs WHERE id = $1", id)
 		if row == nil {
 			c.WriteRedirect("/locs")
 			return
@@ -58,14 +59,14 @@ func handlePage(c *serv.Context) {
 
 		l := &Loc{}
 
-		if err := row.Scan(&l.Id, &l.Name, &l.Code, &l.Latitude, &l.Longitude, &l.Forms, &l.ParentId); err != nil {
+		if err := row.Scan(&l.Id, &l.Name, &l.Code, &l.Latitude, &l.Longitude, &l.Forms, &l.ParentId, &l.Skip); err != nil {
 			panic(err)
 		}
 
 		vars["current"] = l
 	}
 
-	rows, err := dbh.Query("SELECT id, name, code, latitude, longitude, forms, parent_id "+
+	rows, err := dbh.Query("SELECT id, name, code, latitude, longitude, forms, parent_id, skip "+
 		"FROM locs WHERE parent_id=$1 ORDER BY LOWER(name)", id)
 	if err != nil {
 		panic(err)
@@ -77,7 +78,7 @@ func handlePage(c *serv.Context) {
 	for rows.Next() {
 		l := &Loc{}
 
-		if err := rows.Scan(&l.Id, &l.Name, &l.Code, &l.Latitude, &l.Longitude, &l.Forms, &l.ParentId); err != nil {
+		if err := rows.Scan(&l.Id, &l.Name, &l.Code, &l.Latitude, &l.Longitude, &l.Forms, &l.ParentId, &l.Skip); err != nil {
 			panic(err)
 		}
 
@@ -133,12 +134,12 @@ func handleEditPage(c *serv.Context) {
 		}
 		defer dbh.Close()
 
-		row := dbh.QueryRow("SELECT id, name, code, forms, latitude, longitude, parent_id FROM locs WHERE id = $1", id)
+		row := dbh.QueryRow("SELECT id, name, code, forms, latitude, longitude, parent_id, skip FROM locs WHERE id = $1", id)
 		if row == nil {
 			panic("no row")
 		}
 
-		err = row.Scan(&l.Id, &l.Name, &l.Code, &l.Forms, &l.Latitude, &l.Longitude, &l.ParentId)
+		err = row.Scan(&l.Id, &l.Name, &l.Code, &l.Forms, &l.Latitude, &l.Longitude, &l.ParentId, &l.Skip)
 		if err != nil {
 			panic(err)
 		}
@@ -173,6 +174,8 @@ func handleSavePage(c *serv.Context) {
 	l.Latitude, _ = strconv.ParseFloat(strings.TrimSpace(cv[0]), 64)
 	l.Longitude, _ = strconv.ParseFloat(strings.TrimSpace(cv[1]), 64)
 
+	l.Skip = c.FormValue("skip") != ""
+
 	l.Forms = c.FormValue("forms")
 
 	dbh, err := db.Get()
@@ -188,13 +191,13 @@ func handleSavePage(c *serv.Context) {
 	defer tx.Rollback()
 
 	if id == 0 {
-		if _, err := tx.Exec("INSERT INTO locs(name,latitude,longitude,forms,parent_id) VALUES ($1,$2,$3,$4,$5)",
-			l.Name, l.Latitude, l.Longitude, l.Forms, parent_id); err == nil {
+		if _, err := tx.Exec("INSERT INTO locs(name,latitude,longitude,forms,parent_id,skip) VALUES ($1,$2,$3,$4,$5,$6)",
+			l.Name, l.Latitude, l.Longitude, l.Forms, parent_id, l.Skip); err == nil {
 			tx.Commit()
 		}
 	} else {
-		if _, err := tx.Exec("UPDATE locs SET name=$1, latitude=$2, longitude = $3, forms=$4 WHERE id=$5",
-			l.Name, l.Latitude, l.Longitude, l.Forms, id); err == nil {
+		if _, err := tx.Exec("UPDATE locs SET name=$1, latitude=$2, longitude = $3, forms=$4, skip=$5 WHERE id=$6",
+			l.Name, l.Latitude, l.Longitude, l.Forms, l.Skip, id); err == nil {
 			tx.Commit()
 		} else {
 			panic(err)

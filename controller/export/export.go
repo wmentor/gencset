@@ -37,7 +37,7 @@ func handler(c *serv.Context) {
 	}
 	defer dbh.Close()
 
-	sth, err := dbh.Prepare("SELECT id, name, code, latitude, longitude, forms FROM locs WHERE id > $1 ORDER BY id LIMIT 100")
+	sth, err := dbh.Prepare("SELECT id, name, code, latitude, longitude, forms FROM locs WHERE id > $1 AND NOT skip ORDER BY id LIMIT 100")
 	if err != nil {
 		panic(err)
 	}

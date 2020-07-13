@@ -7,7 +7,8 @@ CREATE TABLE locs (
   parent_id INTEGER NOT NULL,
   latitude DOUBLE PRECISION NOT NULL,
   longitude DOUBLE PRECISION NOT NULL,
-  forms TEXT NOT NULL
+  forms TEXT NOT NULL,
+  skip BOOLEAN NOT NULL DEFAULT false
 );
 
 COMMENT ON TABLE locs IS 'GEO location table';
@@ -18,6 +19,8 @@ COMMENT ON COLUMN locs.code IS 'location full name code';
 COMMENT ON COLUMN locs.parent_id IS 'parent location id';
 COMMENT ON COLUMN locs.latitude IS 'point latitude';
 COMMENT ON COLUMN locs.longitude IS 'point longitude';
+COMMENT ON COLUMN locs.forms IS 'name forms';
+COMMENT ON COLUMN locs.skip IS 'disable export';
 
 CREATE INDEX locs_parent_id_idx ON locs(parent_id);
 CREATE INDEX locs_name_idx ON locs( LOWER(name) );

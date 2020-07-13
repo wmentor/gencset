@@ -20,6 +20,10 @@
     <td><textarea name="forms" rows="10" style="WIDTH:600px;">{{ loc.Forms }}</textarea>
   </tr>
   <tr>
+    <td>Disable export</td>
+    <td><input type="checkbox" name="skip" {{ if loc.Skip }}checked{{ end }}>
+  </tr>
+  <tr>
     <td>&nbsp;</td>
     <td><input type="submit" value="SAVE"></td>
   </tr>

@@ -37,6 +37,7 @@ Forms <input type="text" name="forms" style="WIDTH:600px;"> <input type="submit"
   <td><a href="/locs/{{ loc.Id }}">{{ loc.Name }}</a></td>
   <td>{{ loc.Latitude }}</td>
   <td>{{ loc.Longitude }}</td>
+  <td>{{ if loc.Skip }}S{{ else }}&nbsp;{{ end }}</td>
   <td><a href="/locs/{{ id }}/edit/{{ loc.Id }}">edit</a></td>
   <td><a href="#" onclick="return onConfDlg({{ loc.Id }});">delete</a></td>
 </tr>
