@@ -28,7 +28,7 @@ CREATE INDEX locs_code_idx ON locs( LOWER(code) );
 CREATE INDEX locs_latitude_idx ON locs(latitude);
 CREATE INDEX locs_longitude_idx ON locs(longitude);
 
-CREATE FUNCTION on_insert_loc() RETURNS trigger AS $BODY$
+CREATE OR REPLACE FUNCTION on_insert_loc() RETURNS trigger AS $BODY$
 BEGIN
   IF NEW.parent_id = 0 THEN
     NEW.code = NEW.name;
@@ -44,10 +44,21 @@ $BODY$ LANGUAGE plpgsql;
 
 CREATE TRIGGER on_insert_loc_trg BEFORE INSERT ON locs FOR EACH ROW EXECUTE PROCEDURE on_insert_loc();
 
-CREATE FUNCTION on_update_loc() RETURNS trigger AS $BODY$
+CREATE OR REPLACE FUNCTION on_update_loc() RETURNS trigger AS $BODY$
+DECLARE
+   newCode character varying(1024) := '';
 BEGIN
   IF NEW.name != OLD.name THEN
     NEW.code = REPLACE(OLD.code, OLD.name, NEW.name);
+    UPDATE locs SET code = REPLACE(code, OLD.code, NEW.code) WHERE code LIKE ( '%/' || OLD.CODE );
+  END IF;
+  IF NEW.parent_id != OLD.parent_id THEN
+    SELECT code INTO newCode FROM locs WHERE id = NEW.parent_id;
+    IF newCode IS NULL THEN
+      New.code = New.name;
+    ELSE
+      NEW.code = New.name || '/' || newCode;
+    END IF;
     UPDATE locs SET code = REPLACE(code, OLD.code, NEW.code) WHERE code LIKE ( '%/' || OLD.CODE );
   END IF;
   RETURN NEW;
@@ -56,7 +67,7 @@ $BODY$ LANGUAGE plpgsql;
 
 CREATE TRIGGER on_update_loc_trg BEFORE UPDATE ON locs FOR EACH ROW EXECUTE PROCEDURE on_update_loc();
 
-CREATE FUNCTION on_delete_loc() RETURNS trigger AS $BODY$
+CREATE OR REPLACE FUNCTION on_delete_loc() RETURNS trigger AS $BODY$
 BEGIN
   DELETE FROM locs WHERE code LIKE ( '%/' || OLD.code);
   RETURN OLD;

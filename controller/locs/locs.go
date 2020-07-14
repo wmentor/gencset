@@ -5,6 +5,7 @@ import (
 	"strings"
 
 	"github.com/wmentor/gencset/db"
+	"github.com/wmentor/log"
 	"github.com/wmentor/serv"
 )
 
@@ -15,6 +16,7 @@ func init() {
 	serv.Register("GET", "/locs/:id", handlePage)
 	serv.Register("GET", "/locs/:id/add", handleEditPage)
 	serv.Register("POST", "/locs/:id/add", handleSavePage)
+	serv.Register("GET", "/locs/:id/attach/:loc_id", handleAttach)
 	serv.Register("GET", "/locs/:id/delete/:loc_id", handleDelete)
 	serv.Register("GET", "/locs/:id/edit/:loc_id", handleEditPage)
 	serv.Register("POST", "/locs/:id/edit/:loc_id", handleSavePage)
@@ -202,6 +204,24 @@ func handleSavePage(c *serv.Context) {
 		} else {
 			panic(err)
 		}
+	}
+
+	c.WriteRedirect("/locs/" + strconv.FormatInt(parent_id, 10))
+}
+
+func handleAttach(c *serv.Context) {
+
+	id := c.ParamInt64("loc_id")
+	parent_id := c.ParamInt64("id")
+
+	dbh, err := db.Get()
+	if err != nil {
+		panic(err)
+	}
+	defer dbh.Close()
+
+	if _, err := dbh.Exec("UPDATE locs SET parent_id=$1 WHERE id=$2", parent_id, id); err != nil {
+		log.Error(err.Error())
 	}
 
 	c.WriteRedirect("/locs/" + strconv.FormatInt(parent_id, 10))
