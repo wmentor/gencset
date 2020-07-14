@@ -3,7 +3,7 @@
 {{ block body() }}
 
 <div style="FLOAT:RIGHT;">
-<a href="/export" target="_blank">EXPORT</a>{{ if id != 0 }} / <a href="/">ROOT</a> / <a href="/locs/{{ current.ParentId }}">PARENT</a>{{ end }}&nbsp;&nbsp;
+<a href="/points" target="_blank">POINTS</a> / <a href="/export" target="_blank">EXPORT</a>{{ if id != 0 }} / <a href="/">ROOT</a> / <a href="/locs/{{ current.ParentId }}">PARENT</a>{{ end }}&nbsp;&nbsp;
 </div>
 
 {{ if id != 0 }}
