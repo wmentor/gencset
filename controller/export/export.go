@@ -65,11 +65,10 @@ func handler(c *serv.Context) {
 
 			for _, f := range strings.Split(l.Forms, "/") {
 				str := strings.ReplaceAll(strings.TrimSpace(strings.ToLower(f)), "ё", "е")
-				code := strings.ToLower(l.Code)
 
 				maker.WriteString(str)
 				maker.WriteRune(';')
-				maker.WriteString(code)
+				maker.WriteString(l.Code)
 				maker.WriteRune(';')
 				maker.WriteString(fmt.Sprintf("%.9f;%.9f\n", l.Latitude, l.Longitude))
 			}

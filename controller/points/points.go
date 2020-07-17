@@ -3,7 +3,6 @@ package points
 import (
 	"bytes"
 	"fmt"
-	"strings"
 
 	"github.com/wmentor/gencset/db"
 	"github.com/wmentor/serv"
@@ -61,8 +60,7 @@ func handler(c *serv.Context) {
 
 			id = l.Id
 
-			code := strings.ToLower(l.Code)
-			maker.WriteString(code)
+			maker.WriteString(l.Code)
 			maker.WriteRune(';')
 			maker.WriteString(fmt.Sprintf("%.9f;%.9f\n", l.Latitude, l.Longitude))
 
