@@ -5,6 +5,7 @@ import (
 	"strings"
 
 	"github.com/wmentor/gencset/db"
+	"github.com/wmentor/geo"
 	"github.com/wmentor/log"
 	"github.com/wmentor/serv"
 )
@@ -173,8 +174,13 @@ func handleSavePage(c *serv.Context) {
 		return
 	}
 
-	l.Latitude, _ = strconv.ParseFloat(strings.TrimSpace(cv[0]), 64)
-	l.Longitude, _ = strconv.ParseFloat(strings.TrimSpace(cv[1]), 64)
+	var err error
+
+	l.Latitude, l.Longitude, err = geo.ParseCoords(coords)
+	if err != nil {
+		c.WriteRedirect("/locs/" + strconv.FormatInt(parent_id, 10))
+		return
+	}
 
 	l.Skip = c.FormValue("skip") != ""
 
